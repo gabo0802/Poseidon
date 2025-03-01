@@ -1,13 +1,13 @@
 import Header from "./components/header";
 import Footer from "./components/footer";
-import Map from "./Map";
+import MapScreen from "./MapScreen";
 
 function App() {
   return (
     <div>
       {/* <Header />
         <Footer /> */}
-      <Map />
+      <MapScreen />
     </div>
   );
 }
