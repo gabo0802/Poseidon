@@ -1,15 +1,20 @@
 import Header from "./components/header";
 import Footer from "./components/footer";
-import Map from "./Map";
+import Map from "./components/Map";
+import LandingPage from "./components/LandingPage";
 
 function App() {
-  return (
+return (
     <div>
-      {/* <Header />
-        <Footer /> */}
-      <Map />
+        <Header />
+        <LandingPage />
+        <Map />
+            
+            
+
+        <Footer />
     </div>
-  );
+);
 }
 
 export default App;
