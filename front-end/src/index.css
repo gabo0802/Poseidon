@@ -10,5 +10,6 @@
 
 body {
     height: 100%;
-    overflow: hidden;  /* Optional: hide body overflow if needed */
+    overflow-x: hidden;
+    font-family: "Poppins", sans-serif;
 }
