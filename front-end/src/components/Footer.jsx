@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="bottom-[20px] w-[90px] h-[90px] left-[89px] bg-gradient-to-r from-[#ff5202] to-[#ff8f5c] opacity-90 rounded-full absolute"></div>
         <img
           className="w-[80px] h-[80px] relative bottom-[-30px] left-[94px]"
-          src="src/assets/trident_3.png"
+          src="/assets/trident_3.png"
         />
       </div>
     </footer>

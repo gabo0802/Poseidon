@@ -4,7 +4,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Tooltip } from "react-tooltip";
 
-const geoUrl = "./florida-counties.json";
+const geoUrl = "/florida-counties.json";
 
 const counties = {
   Alachua: ["Gainesville", "High Springs", "Newberry", "Waldo"],
@@ -382,7 +382,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[100px] h-[100px]"
-                          src="src/assets/forecasting.png"
+                          src="/assets/forecasting.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -393,7 +393,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/cold-exposure.png"
+                          src="/assets/cold-exposure.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -404,7 +404,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/severe-weather.png"
+                          src="/assets/severe-weather.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -415,7 +415,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/thermometer.png"
+                          src="/assets/thermometer.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -426,7 +426,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/haze.png"
+                          src="/assets/haze.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -437,7 +437,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/speedometer.png"
+                          src="/assets/speedometer.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -448,7 +448,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[100px] h-[100px]"
-                          src="src/assets/directions.png"
+                          src="/assets/directions.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -459,7 +459,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/speedometer.png"
+                          src="/assets/speedometer.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -469,7 +469,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/drop.png"
+                          src="/assets/drop.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
@@ -479,7 +479,7 @@ function Map() {
                       <div className="flex flex-col items-center py-9">
                       <img
                           className="w-[80px] h-[80px]"
-                          src="src/assets/recycle.png"
+                          src="/assets/recycle.png"
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
