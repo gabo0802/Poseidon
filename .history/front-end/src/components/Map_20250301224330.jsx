@@ -206,7 +206,7 @@ function Map() {
   // Handle mouse enter (show tooltip)
   const handleMouseEnter = (event, countyName) => {
     const { clientX, clientY } = event;
-    setTooltipPosition({ x: clientX - 170, y: clientY - 230 }); // Add offset for better positioning
+    setTooltipPosition({ x: clientX - 150, y: clientY - 250 }); // Add offset for better positioning
     setTooltipContent(countyName); // Set county name as tooltip content
   };
 
