@@ -162,7 +162,6 @@ function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
   const [selectedCounty, setSelectedCounty] = useState(null);
-  const [selectedCity, setSelectedCity] = useState(null);
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
@@ -189,9 +188,12 @@ function Map() {
       const foundCounties = findCountiesByCity(searchTerm);
 
       if (foundCounties.length > 0) {
-        setHighlightedCounties({ [foundCounties[0]]: true });
+        const newHighlightedCounties = {};
+        foundCounties.forEach((county) => {
+          newHighlightedCounties[county] = true;
+        });
+        setHighlightedCounties(newHighlightedCounties);
         setSelectedCounty(foundCounties[0]);
-        setSelectedCity(searchTerm);
       } else {
         console.log("City not found in Florida.");
       }
@@ -199,14 +201,15 @@ function Map() {
   };
 
   const handleCountyClick = (countyName) => {
-    setSearchTerm(countyName);
-    setHighlightedCounties({ [countyName]: true });
-    setSelectedCounty(countyName);
-    setSelectedCity(null);
-  };
-
-  const handleCityClick = (cityName) => {
-    setSelectedCity(cityName);
+    if (selectedCounty === countyName) {
+      setSelectedCounty(null);
+      setHighlightedCounties({});
+      setSearchTerm("");
+    } else {
+      setSearchTerm(countyName);
+      setHighlightedCounties({ [countyName]: true });
+      setSelectedCounty(countyName);
+    }
   };
 
   const handleMouseEnter = (event, countyName) => {
@@ -248,6 +251,7 @@ function Map() {
         />
       </motion.div>
 
+      {/* Map and Info Section */}
       <div
         className={`flex transition-all duration-300 ${
           selectedCounty ? "w-[75%]" : "w-full"
@@ -260,7 +264,10 @@ function Map() {
         >
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{ scale: 4000, center: [-83, 28] }}
+            projectionConfig={{
+              scale: 4000,
+              center: [-83, 28],
+            }}
             className="w-full h-full"
           >
             <Geographies geography={geoUrl}>
@@ -312,33 +319,19 @@ function Map() {
                 "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
             }}
           >
-            {selectedCity ? (
-              <>
-                <h2 className="text-xl font-bold text-white text-center">
-                  {selectedCity}
-                </h2>
-                <p className="text-white text-center mt-2">
-                  City-specific information goes here.
-                </p>
-              </>
-            ) : (
-              <>
-                <h2 className="text-xl font-bold text-white text-center">
-                  {selectedCounty}
-                </h2>
-                <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                  {counties[selectedCounty]?.map((city) => (
-                    <button
-                      key={city}
-                      className="bg-white text-black px-3 py-2 rounded-lg shadow-md hover:bg-gray-300 transition-all"
-                      onClick={() => handleCityClick(city)}
-                    >
-                      {city}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+            <h2 className="text-xl font-bold text-white text-center">
+              {selectedCounty}
+            </h2>
+            <div className="mt-4 flex flex-wrap gap-2 justify-center">
+              {counties[selectedCounty]?.map((city) => (
+                <button
+                  key={city}
+                  className="bg-white text-black px-3 py-2 rounded-lg shadow-md hover:bg-gray-300 transition-all"
+                >
+                  {city}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -158,6 +158,7 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
@@ -169,6 +170,17 @@ function Map() {
 
   const opacity = useTransform(scrollY, [250, 550], [0, 1]);
   const yPosition = useTransform(scrollY, [0, 300], [-50, 0]);
+
+  const cityData = {
+    Miami: {
+      population: "470,000",
+      description: "A vibrant city in South Florida.",
+    },
+    Orlando: {
+      population: "309,000",
+      description: "Famous for its theme parks.",
+    },
+  };
 
   const findCountiesByCity = (city) => {
     let countiesFound = [];
@@ -187,7 +199,6 @@ function Map() {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       const foundCounties = findCountiesByCity(searchTerm);
-
       if (foundCounties.length > 0) {
         setHighlightedCounties({ [foundCounties[0]]: true });
         setSelectedCounty(foundCounties[0]);
@@ -199,36 +210,24 @@ function Map() {
   };
 
   const handleCountyClick = (countyName) => {
-    setSearchTerm(countyName);
-    setHighlightedCounties({ [countyName]: true });
-    setSelectedCounty(countyName);
-    setSelectedCity(null);
+    if (selectedCounty === countyName) {
+      setSelectedCounty(null);
+      setHighlightedCounties({});
+      setSearchTerm("");
+    } else {
+      setSearchTerm(countyName);
+      setHighlightedCounties({ [countyName]: true });
+      setSelectedCounty(countyName);
+      setSelectedCity(null);
+    }
   };
 
   const handleCityClick = (cityName) => {
     setSelectedCity(cityName);
   };
 
-  const handleMouseEnter = (event, countyName) => {
-    const mapElement = event.target.closest(".map-container");
-    const { left, top } = mapElement.getBoundingClientRect();
-    const { clientX, clientY } = event;
-
-    setTooltipPosition({
-      x: clientX - left - 10,
-      y: clientY - top - 60,
-    });
-
-    setTooltipContent(countyName);
-  };
-
-  const handleMouseLeave = () => {
-    setTooltipContent("");
-  };
-
   return (
     <div
-      id="map"
       className="w-screen h-screen flex flex-col items-center justify-center relative overflow-hidden"
       style={{
         background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)",
@@ -250,12 +249,12 @@ function Map() {
 
       <div
         className={`flex transition-all duration-300 ${
-          selectedCounty ? "w-[75%]" : "w-full"
+          selectedCounty || selectedCity ? "w-[75%]" : "w-full"
         } h-[85%] items-center`}
       >
         <div
           className={`relative map-container transition-all duration-300 ${
-            selectedCounty ? "w-2/3" : "w-full"
+            selectedCounty || selectedCity ? "w-2/3" : "w-full"
           } h-full`}
         >
           <ComposableMap
@@ -276,8 +275,6 @@ function Map() {
                       }
                       stroke="#FFFFFF"
                       onClick={() => handleCountyClick(countyName)}
-                      onMouseEnter={(e) => handleMouseEnter(e, countyName)}
-                      onMouseLeave={handleMouseLeave}
                       style={{
                         default: { outline: "none" },
                         hover: { outline: "none", fill: "#ECEFF1" },
@@ -289,36 +286,21 @@ function Map() {
               }
             </Geographies>
           </ComposableMap>
-
-          {tooltipContent && (
-            <div
-              className="absolute bg-black text-white p-2 rounded"
-              style={{
-                left: `${tooltipPosition.x}px`,
-                top: `${tooltipPosition.y}px`,
-                pointerEvents: "none",
-              }}
-            >
-              {tooltipContent}
-            </div>
-          )}
         </div>
 
-        {selectedCounty && (
-          <div
-            className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl flex flex-col"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
-            }}
-          >
+        {(selectedCounty || selectedCity) && (
+          <div className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl flex flex-col">
             {selectedCity ? (
               <>
                 <h2 className="text-xl font-bold text-white text-center">
                   {selectedCity}
                 </h2>
                 <p className="text-white text-center mt-2">
-                  City-specific information goes here.
+                  Population: {cityData[selectedCity]?.population || "N/A"}
+                </p>
+                <p className="text-white text-center mt-2">
+                  {cityData[selectedCity]?.description ||
+                    "No information available."}
                 </p>
               </>
             ) : (

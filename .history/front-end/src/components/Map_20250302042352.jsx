@@ -230,9 +230,6 @@ function Map() {
     <div
       id="map"
       className="w-screen h-screen flex flex-col items-center justify-center relative overflow-hidden"
-      style={{
-        background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)",
-      }}
     >
       <motion.div
         className="absolute bg-white rounded-lg top-4 left-1/2 transform -translate-x-1/2 w-1/2 z-50"
