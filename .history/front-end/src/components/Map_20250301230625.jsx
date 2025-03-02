@@ -160,10 +160,10 @@ const counties = {
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
-  const [selectedCounty, setSelectedCounty] = useState(null);
-  const [tooltipContent, setTooltipContent] = useState("");
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [tooltipContent, setTooltipContent] = useState(""); // Store tooltip content
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // Position of the tooltip
 
+  // Find counties by city (your original function)
   const findCountiesByCity = (city) => {
     let countiesFound = [];
     for (let county in counties) {
@@ -174,145 +174,131 @@ function Map() {
     return countiesFound;
   };
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
+  // Handle key press (Enter)
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       const foundCounties = findCountiesByCity(searchTerm);
 
       if (foundCounties.length > 0) {
+        // Highlight the found counties
         const newHighlightedCounties = {};
         foundCounties.forEach((county) => {
-          newHighlightedCounties[county] = true;
+          newHighlightedCounties[county] = true; // Mark as highlighted
         });
-        setHighlightedCounties(newHighlightedCounties);
-        setSelectedCounty(foundCounties[0]);
+        setHighlightedCounties(newHighlightedCounties); // Update state with highlighted counties
+        console.log(
+          `Found and highlighted counties: ${foundCounties.join(", ")}`
+        );
       } else {
         console.log("City not found in Florida.");
       }
     }
   };
 
+  // Handle county click (make sure only one county is highlighted)
   const handleCountyClick = (countyName) => {
-    if (selectedCounty === countyName) {
-      setSelectedCounty(null);
-      setHighlightedCounties({});
-      setSearchTerm("");
-    } else {
-      setSearchTerm(countyName);
-      setHighlightedCounties({ [countyName]: true });
-      setSelectedCounty(countyName);
-    }
+    setSearchTerm(countyName); // Set the search bar to the county name
+    setHighlightedCounties({}); // Unhighlight all counties
+    setHighlightedCounties((prevState) => ({
+      [countyName]: true, // Highlight only the clicked county
+    }));
   };
 
+  // Handle mouse enter (show tooltip)
   const handleMouseEnter = (event, countyName) => {
-    const mapElement = event.target.closest(".map-container");
+    const mapElement = event.target.closest(".map-container"); // Find the map container
     const { left, top } = mapElement.getBoundingClientRect();
     const { clientX, clientY } = event;
 
+    // Adjust tooltip position based on mouse position and map container position
     setTooltipPosition({
-      x: clientX - left - 10,
-      y: clientY - top - 60,
+      x: clientX - left - 10, // Offset for tooltip position
+      y: clientY - top - 60, // Offset for tooltip position
     });
 
-    setTooltipContent(countyName);
+    setTooltipContent(countyName); // Set county name as tooltip content
   };
 
+  // Handle mouse leave (hide tooltip)
   const handleMouseLeave = () => {
-    setTooltipContent("");
+    setTooltipContent(""); // Hide tooltip when mouse leaves the county
   };
 
   return (
     <div
-      className="w-screen h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{
-        background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)",
+        background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)", // Gradient from bottom left to top right
       }}
     >
-      {/* Search Bar - Ensured visibility with z-index */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-1/2 z-50">
+      <div className="text-center py-4">
+        <h1 className="text-3xl font-bold">See your Community</h1>
+      </div>
+
+      <div className="w-3/5 my-4">
         <input
           type="text"
-          className="w-full p-2 border border-gray-300 rounded-lg shadow-lg"
           placeholder="Search for a city..."
+          className="w-full p-1 border border-gray-300 rounded"
           value={searchTerm}
-          onChange={handleSearchChange}
+          onChange={(e) => setSearchTerm(e.target.value)}
           onKeyPress={handleKeyPress}
         />
       </div>
 
-      {/* Map and Info Section */}
-      <div
-        className={`flex transition-all duration-300 ${
-          selectedCounty ? "w-[75%]" : "w-full"
-        } h-[85%] items-center`}
-      >
-        <div
-          className={`relative map-container transition-all duration-300 ${
-            selectedCounty ? "w-2/3" : "w-full"
-          } h-full`}
+      {/* Display search results */}
+      <div className="my-2 text-lg">
+        {searchTerm && <div>{`Searching for: ${searchTerm}`}</div>}
+      </div>
+
+      <div className="w-4/5 h-4/5 relative map-container">
+        <ComposableMap
+          projection="geoMercator"
+          projectionConfig={{
+            scale: 4000,
+            center: [-83, 28], // Approximate center of Florida
+          }}
+          className="w-full h-full"
         >
-          <ComposableMap
-            projection="geoMercator"
-            projectionConfig={{
-              scale: 4000,
-              center: [-83, 28],
-            }}
-            className="w-full h-full"
-          >
-            <Geographies geography={geoUrl}>
-              {({ geographies }) =>
-                geographies.map((geo) => {
-                  const countyName = geo.properties.county;
-                  return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      fill={
-                        highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
-                      }
-                      stroke="#FFFFFF"
-                      onClick={() => handleCountyClick(countyName)}
-                      onMouseEnter={(e) => handleMouseEnter(e, countyName)}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        default: { outline: "none" },
-                        hover: { outline: "none", fill: "#ECEFF1" },
-                        pressed: { outline: "none", fill: "#BDBDBD" },
-                      }}
-                    />
-                  );
-                })
-              }
-            </Geographies>
-          </ComposableMap>
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                const countyName = geo.properties.county;
 
-          {tooltipContent && (
-            <div
-              className="absolute bg-black text-white p-2 rounded"
-              style={{
-                left: `${tooltipPosition.x}px`,
-                top: `${tooltipPosition.y}px`,
-                pointerEvents: "none",
-              }}
-            >
-              {tooltipContent}
-            </div>
-          )}
-        </div>
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill={
+                      highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
+                    } // Highlight color
+                    stroke="#FFFFFF"
+                    onClick={() => handleCountyClick(countyName)} // Set search bar value when county is clicked
+                    onMouseEnter={(e) => handleMouseEnter(e, countyName)} // Show tooltip on hover
+                    onMouseLeave={handleMouseLeave} // Hide tooltip when mouse leaves
+                    style={{
+                      default: { outline: "none" },
+                      hover: { outline: "none", fill: "#ECEFF1" },
+                      pressed: { outline: "none", fill: "#BDBDBD" },
+                    }}
+                  />
+                );
+              })
+            }
+          </Geographies>
+        </ComposableMap>
 
-        {selectedCounty && (
+        {/* Tooltip displayed on hover */}
+        {tooltipContent && (
           <div
-            className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl"
+            className="absolute bg-black text-white p-2 rounded"
             style={{
-              background:
-                "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
+              left: `${tooltipPosition.x}px`,
+              top: `${tooltipPosition.y}px`,
+              pointerEvents: "none", // Ensures the tooltip doesn't block interactions
             }}
           >
-            <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>
-            <p>More detailed info about {selectedCounty}...</p>
+            {tooltipContent}
           </div>
         )}
       </div>

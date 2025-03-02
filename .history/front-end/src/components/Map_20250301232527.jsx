@@ -308,7 +308,7 @@ function Map() {
             className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
+                "linear-gradient(to bottom, rgba(255, 82, 2, 0.9), rgba(255, 143, 92, 0.9))",
             }}
           >
             <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>

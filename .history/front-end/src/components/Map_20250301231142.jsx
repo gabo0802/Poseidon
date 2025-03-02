@@ -157,56 +157,45 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [highlightedCounties, setHighlightedCounties] = useState({});
-  const [selectedCounty, setSelectedCounty] = useState(null);
+  const [highlightedCounty, setHighlightedCounty] = useState(null);
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
+  // Find counties by city
   const findCountiesByCity = (city) => {
-    let countiesFound = [];
-    for (let county in counties) {
-      if (counties[county].includes(city)) {
-        countiesFound.push(county);
-      }
-    }
-    return countiesFound;
+    return Object.keys(counties).filter((county) =>
+      counties[county].includes(city)
+    );
   };
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
+  // Handle Enter key in the search bar
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       const foundCounties = findCountiesByCity(searchTerm);
 
       if (foundCounties.length > 0) {
-        const newHighlightedCounties = {};
-        foundCounties.forEach((county) => {
-          newHighlightedCounties[county] = true;
-        });
-        setHighlightedCounties(newHighlightedCounties);
-        setSelectedCounty(foundCounties[0]);
+        setHighlightedCounty(foundCounties[0]); // Only highlight the first county found
       } else {
         console.log("City not found in Florida.");
       }
     }
   };
 
+  // Handle county click (toggle selection)
   const handleCountyClick = (countyName) => {
-    if (selectedCounty === countyName) {
-      setSelectedCounty(null);
-      setHighlightedCounties({});
-      setSearchTerm("");
+    if (highlightedCounty === countyName) {
+      setHighlightedCounty(null); // Unhighlight if clicked again
+      setSearchTerm(""); // Clear search bar
     } else {
-      setSearchTerm(countyName);
-      setHighlightedCounties({ [countyName]: true });
-      setSelectedCounty(countyName);
+      setHighlightedCounty(countyName); // Highlight new county
+      setSearchTerm(countyName); // Update search bar
     }
   };
 
+  // Handle tooltip positioning on hover
   const handleMouseEnter = (event, countyName) => {
     const mapElement = event.target.closest(".map-container");
     const { left, top } = mapElement.getBoundingClientRect();
@@ -226,52 +215,47 @@ function Map() {
 
   return (
     <div
-      className="w-screen h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      className="w-screen h-screen flex overflow-hidden"
       style={{
         background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)",
       }}
     >
-      {/* Search Bar - Ensured visibility with z-index */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-1/2 z-50">
-        <input
-          type="text"
-          className="w-full p-2 border border-gray-300 rounded-lg shadow-lg"
-          placeholder="Search for a city..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          onKeyPress={handleKeyPress}
-        />
-      </div>
+      {/* Main Content Section */}
+      <div className="flex flex-col items-center justify-center w-3/4">
+        <div className="text-center py-4">
+          <h1 className="text-3xl font-bold">See your Community</h1>
+        </div>
 
-      {/* Map and Info Section */}
-      <div
-        className={`flex transition-all duration-300 ${
-          selectedCounty ? "w-[75%]" : "w-full"
-        } h-[85%] items-center`}
-      >
-        <div
-          className={`relative map-container transition-all duration-300 ${
-            selectedCounty ? "w-2/3" : "w-full"
-          } h-full`}
-        >
+        {/* Search Bar */}
+        <div className="w-3/5 my-4">
+          <input
+            type="text"
+            placeholder="Search for a city..."
+            className="w-full p-2 border border-gray-300 rounded"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+        </div>
+
+        {/* Map Section */}
+        <div className="w-full h-[80%] relative map-container">
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{
-              scale: 4000,
-              center: [-83, 28],
-            }}
+            projectionConfig={{ scale: 4000, center: [-83, 28] }}
             className="w-full h-full"
           >
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => {
                   const countyName = geo.properties.county;
+
                   return (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
                       fill={
-                        highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
+                        highlightedCounty === countyName ? "#FF5733" : "#D6D6DA"
                       }
                       stroke="#FFFFFF"
                       onClick={() => handleCountyClick(countyName)}
@@ -289,6 +273,7 @@ function Map() {
             </Geographies>
           </ComposableMap>
 
+          {/* Tooltip */}
           {tooltipContent && (
             <div
               className="absolute bg-black text-white p-2 rounded"
@@ -302,20 +287,19 @@ function Map() {
             </div>
           )}
         </div>
-
-        {selectedCounty && (
-          <div
-            className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
-            }}
-          >
-            <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>
-            <p>More detailed info about {selectedCounty}...</p>
-          </div>
-        )}
       </div>
+
+      {/* Right Panel for City Data (Hidden initially) */}
+      {highlightedCounty && (
+        <div className="w-1/4 bg-white shadow-lg p-6">
+          <h2 className="text-xl font-bold text-gray-800">
+            Data for {highlightedCounty}
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Additional information can go here...
+          </p>
+        </div>
+      )}
     </div>
   );
 }

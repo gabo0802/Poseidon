@@ -160,7 +160,7 @@ const counties = {
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
-  const [selectedCounty, setSelectedCounty] = useState(null);
+  const [selectedCounty, setSelectedCounty] = useState(null); // Stores the selected county
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
@@ -174,10 +174,6 @@ function Map() {
     return countiesFound;
   };
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       const foundCounties = findCountiesByCity(searchTerm);
@@ -188,7 +184,7 @@ function Map() {
           newHighlightedCounties[county] = true;
         });
         setHighlightedCounties(newHighlightedCounties);
-        setSelectedCounty(foundCounties[0]);
+        setSelectedCounty(foundCounties[0]); // Set the first found county as selected
       } else {
         console.log("City not found in Florida.");
       }
@@ -197,7 +193,7 @@ function Map() {
 
   const handleCountyClick = (countyName) => {
     if (selectedCounty === countyName) {
-      setSelectedCounty(null);
+      setSelectedCounty(null); // Deselect county
       setHighlightedCounties({});
       setSearchTerm("");
     } else {
@@ -226,24 +222,11 @@ function Map() {
 
   return (
     <div
-      className="w-screen h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      className="w-screen h-screen flex items-center justify-center overflow-hidden"
       style={{
         background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)",
       }}
     >
-      {/* Search Bar - Ensured visibility with z-index */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-1/2 z-50">
-        <input
-          type="text"
-          className="w-full p-2 border border-gray-300 rounded-lg shadow-lg"
-          placeholder="Search for a city..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          onKeyPress={handleKeyPress}
-        />
-      </div>
-
-      {/* Map and Info Section */}
       <div
         className={`flex transition-all duration-300 ${
           selectedCounty ? "w-[75%]" : "w-full"
@@ -304,13 +287,7 @@ function Map() {
         </div>
 
         {selectedCounty && (
-          <div
-            className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
-            }}
-          >
+          <div className="w-1/3 h-full bg-white p-4 shadow-lg overflow-auto">
             <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>
             <p>More detailed info about {selectedCounty}...</p>
           </div>

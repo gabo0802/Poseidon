@@ -304,13 +304,7 @@ function Map() {
         </div>
 
         {selectedCounty && (
-          <div
-            className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
-            }}
-          >
+          <div className="w-1/3 h-[80%] bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-4 shadow-lg overflow-auto bg-opacity-50">
             <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>
             <p>More detailed info about {selectedCounty}...</p>
           </div>

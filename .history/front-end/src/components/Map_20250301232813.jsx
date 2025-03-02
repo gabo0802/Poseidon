@@ -271,7 +271,7 @@ function Map() {
                       key={geo.rsmKey}
                       geography={geo}
                       fill={
-                        highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
+                        highlightedCounties[countyName] ? "#FF5733" : "#E6662F"
                       }
                       stroke="#FFFFFF"
                       onClick={() => handleCountyClick(countyName)}
