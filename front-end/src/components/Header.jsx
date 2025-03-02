@@ -6,7 +6,7 @@ export default function Header() {
             <div className="w-full h-[138px] left-0 top-0 absolute bg-gradient-to-b from-[#369ed4] to-[#4fdac5]" />
             <div className="w-[1007px] h-[38px] left-[173px] top-[57px] absolute">
             <h3 className="left-[467px] top-[2px] text-black font-bold absolute font-['Poppins']">Home</h3>
-            <h3 className="left-0 top-0 absolute text-black font-bold font-['Poppins']">Presidon</h3> 
+            <h3 className="left-0 top-0 text-3xl absolute text-black font-bold font-['Poppins']">Presidon</h3> 
             <h3 className="left-[639px] top-[2px] text-black font-bold absolute font-['Poppins']">Description</h3>
             <h3 className="left-[872px] top-[2px] text-black font-bold absolute font-['Poppins']">Flood Map</h3>
             </div>
