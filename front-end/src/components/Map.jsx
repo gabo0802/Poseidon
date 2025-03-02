@@ -163,6 +163,7 @@ function Map() {
   const [selectedCounty, setSelectedCounty] = useState(null);
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [floodData, setFloodData] = useState(null);
 
   const findCountiesByCity = (city) => {
     let countiesFound = [];
@@ -178,10 +179,10 @@ function Map() {
     setSearchTerm(event.target.value);
   };
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = async (event) => {
     if (event.key === "Enter") {
       const foundCounties = findCountiesByCity(searchTerm);
-
+  
       if (foundCounties.length > 0) {
         const newHighlightedCounties = {};
         foundCounties.forEach((county) => {
@@ -192,10 +193,24 @@ function Map() {
       } else {
         console.log("City not found in Florida.");
       }
+  
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(searchTerm)}`
+        );
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        const data = await response.json();
+        setFloodData(data);
+      } catch (error) {
+        console.error("API error:", error);
+        setFloodData({ error: "Error fetching flood risk data." });
+      }
     }
   };
 
-  const handleCountyClick = (countyName) => {
+  const handleCountyClick = (event, countyName) => {
     if (selectedCounty === countyName) {
       setSelectedCounty(null);
       setHighlightedCounties({});
@@ -242,8 +257,8 @@ function Map() {
           onKeyPress={handleKeyPress}
         />
       </div>
-
-      {/* Map and Info Section */}
+      {/* Display Flood Risk Text */}
+        {/* Map and Info Section */}
       <div
         className={`flex transition-all duration-300 ${
           selectedCounty ? "w-[75%]" : "w-full"
@@ -313,7 +328,26 @@ function Map() {
           >
             <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>
             <p>More detailed info about {selectedCounty}...</p>
-          </div>
+            {floodData ? (
+      <>
+        <p><strong>Flood Risk:</strong> {floodData.flood_risk}</p>
+        <p><strong>Min Temp (°C):</strong> {floodData["min_temp (°C)"]}</p>
+        <p><strong>Max Temp (°C):</strong> {floodData["max_temp (°C)"]}</p>
+        <p><strong>Avg Temp (°C):</strong> {floodData["avg_temp (°C)"]}</p>
+        <p><strong>Avg Humidity (%):</strong> {floodData["avg_humidity (%)"]}</p>
+        <p><strong>Max Wind Speed (m/s):</strong> {floodData["max_wind_speed (m/s)"]}</p>
+        <p><strong>Wind Direction at Max (°):</strong> {floodData["wind_direction_at_max (°)"]}</p>
+        <p><strong>Avg Wind Speed (m/s):</strong> {floodData["avg_wind_speed (m/s)"]}</p>
+        <p><strong>Rainfall (mm):</strong> {floodData["rainfall (mm)"]}</p>
+        <p>
+          <strong>Rainfall-Humidity Interaction:</strong>{" "}
+          {floodData["rainfall_humidity_interaction"]}
+        </p>
+      </>
+    ) : (
+      <p>No flood data available.</p>
+    )}
+  </div>
         )}
       </div>
     </div>
