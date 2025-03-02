@@ -173,6 +173,11 @@ function Map() {
   const yPosition = useTransform(scrollY, [0, 300], [-50, 0]);
   const [floodData, setFloodData] = useState(null);
 
+  // Converts to TitleCase:
+  function toTitleCase(str) {
+    return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+  }
+
   // Helper function: find counties containing the city name
   const findCountiesByCity = (city) => {
     let countiesFound = [];
@@ -192,7 +197,7 @@ function Map() {
   // When Enter is pressed, fetch flood data and update county selection
   const handleKeyPress = async (event) => {
     if (event.key === "Enter") {
-      const foundCounties = findCountiesByCity(searchTerm);
+      const foundCounties = findCountiesByCity(toTitleCase(searchTerm));
 
       if (foundCounties.length > 0) {
         const newHighlightedCounties = {};
@@ -201,7 +206,7 @@ function Map() {
         });
         setHighlightedCounties(newHighlightedCounties);
         setSelectedCounty(foundCounties[0]);
-        setSelectedCity(searchTerm);
+        setSelectedCity(toTitleCase(searchTerm));
       } else {
         console.log("City not found in Florida.");
       }
