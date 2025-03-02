@@ -5,8 +5,24 @@ import lightgbm as lgb
 import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+origins = [
+    "https://poseidon-project-final.vercel.app",  # ✅ Replace with your actual Vercel URL
+    "http://localhost:3000",  # ✅ Optional: Allow local development
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # ✅ Allow Vercel frontend
+    allow_credentials=True,
+    allow_methods=["*"],  # ✅ Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # ✅ Allow all headers
+)
+
 model = joblib.load('best_model.pkl')
 
 def geocode_city(city: str) -> dict:
