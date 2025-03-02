@@ -28,8 +28,7 @@ const counties = {
   Collier: ["Naples", "Marco Island", "Immokalee"],
   Columbia: ["Lake City", "Fort White", "White Springs"],
   DeSoto: ["Arcadia", "Nocatee", "Astatula"],
-  Dixie: ["Cross City", "Old Town"],
-  Suwannee: ["Live Oak", "Branford", "Wellborn"],
+  Dixie: ["Cross City", "Old Town", "Suwannee"],
   Duval: [
     "Jacksonville",
     "Atlantic Beach",
