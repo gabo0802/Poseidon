@@ -158,9 +158,7 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
-
 function Map() {
-  // State declarations
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
   const [selectedCounty, setSelectedCounty] = useState(null);
@@ -168,11 +166,10 @@ function Map() {
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
+
   const opacity = useTransform(scrollY, [250, 550], [0, 1]);
   const yPosition = useTransform(scrollY, [0, 300], [-50, 0]);
-  const [floodData, setFloodData] = useState(null);
 
-  // Helper function: find counties containing the city name
   const findCountiesByCity = (city) => {
     let countiesFound = [];
     for (let county in counties) {
@@ -183,46 +180,24 @@ function Map() {
     return countiesFound;
   };
 
-  // Update search term from the input field
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // When Enter is pressed, fetch flood data and update county selection
-  const handleKeyPress = async (event) => {
+  const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       const foundCounties = findCountiesByCity(searchTerm);
 
       if (foundCounties.length > 0) {
-        const newHighlightedCounties = {};
-        foundCounties.forEach((county) => {
-          newHighlightedCounties[county] = true;
-        });
-        setHighlightedCounties(newHighlightedCounties);
+        setHighlightedCounties({ [foundCounties[0]]: true });
         setSelectedCounty(foundCounties[0]);
         setSelectedCity(searchTerm);
       } else {
         console.log("City not found in Florida.");
       }
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(
-            searchTerm
-          )}`
-        );
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-        const data = await response.json();
-        setFloodData(data);
-      } catch (error) {
-        console.error("API error:", error);
-        setFloodData({ error: "Error fetching flood risk data." });
-      }
     }
   };
 
-  // Handle when a county on the map is clicked
   const handleCountyClick = (countyName) => {
     if (selectedCounty === countyName) {
       setSearchTerm("");
@@ -237,37 +212,20 @@ function Map() {
     }
   };
 
-  // Handle clicking a city button
-  const handleCityClick = async (cityName) => {
+  const handleCityClick = (cityName) => {
     setSelectedCity(cityName);
-    setFloodData(null); // Clear previous data
-
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(
-          cityName
-        )}`
-      );
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-      const data = await response.json();
-      setFloodData(data);
-    } catch (error) {
-      console.error("API error:", error);
-      setFloodData({ error: "Error fetching flood risk data." });
-    }
   };
 
-  // Tooltip mouse events
   const handleMouseEnter = (event, countyName) => {
     const mapElement = event.target.closest(".map-container");
     const { left, top } = mapElement.getBoundingClientRect();
     const { clientX, clientY } = event;
+
     setTooltipPosition({
       x: clientX - left - 10,
       y: clientY - top - 60,
     });
+
     setTooltipContent(countyName);
   };
 
@@ -283,7 +241,6 @@ function Map() {
         background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)",
       }}
     >
-      {/* Search Bar Section */}
       <motion.div
         className="absolute bg-white rounded-lg top-4 left-1/2 transform -translate-x-1/2 w-1/2 z-50"
         style={{ opacity, y: yPosition }}
@@ -297,9 +254,7 @@ function Map() {
           onKeyPress={handleKeyPress}
         />
       </motion.div>
-      {/* End of Search Bar Section */}
 
-      {/* Map and Info Section */}
       <div
         className={`flex transition-all duration-300 ${
           selectedCounty ? "w-[75%]" : "w-full"
@@ -369,52 +324,9 @@ function Map() {
                 <h2 className="text-xl font-bold text-white text-center">
                   {selectedCity}
                 </h2>
-                <p className="text-white text-center mt-2"></p>
-                {floodData ? (
-                  <>
-                    <p>
-                      <strong>Flood Risk:</strong> {floodData.flood_risk}
-                    </p>
-                    <p>
-                      <strong>Min Temp (°C):</strong>{" "}
-                      {floodData["min_temp (°C)"]}
-                    </p>
-                    <p>
-                      <strong>Max Temp (°C):</strong>{" "}
-                      {floodData["max_temp (°C)"]}
-                    </p>
-                    <p>
-                      <strong>Avg Temp (°C):</strong>{" "}
-                      {floodData["avg_temp (°C)"]}
-                    </p>
-                    <p>
-                      <strong>Avg Humidity (%):</strong>{" "}
-                      {floodData["avg_humidity (%)"]}
-                    </p>
-                    <p>
-                      <strong>Max Wind Speed (m/s):</strong>{" "}
-                      {floodData["max_wind_speed (m/s)"]}
-                    </p>
-                    <p>
-                      <strong>Wind Direction at Max (°):</strong>{" "}
-                      {floodData["wind_direction_at_max (°)"]}
-                    </p>
-                    <p>
-                      <strong>Avg Wind Speed (m/s):</strong>{" "}
-                      {floodData["avg_wind_speed (m/s)"]}
-                    </p>
-                    <p>
-                      <strong>Rainfall (mm):</strong>{" "}
-                      {floodData["rainfall (mm)"]}
-                    </p>
-                    <p>
-                      <strong>Rainfall-Humidity Interaction:</strong>{" "}
-                      {floodData["rainfall_humidity_interaction"]}
-                    </p>
-                  </>
-                ) : (
-                  <p>Loading flood data...</p>
-                )}
+                <p className="text-white text-center mt-2">
+                  City-specific information goes here.
+                </p>
               </>
             ) : (
               <>
