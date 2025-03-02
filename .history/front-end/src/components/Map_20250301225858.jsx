@@ -205,16 +205,13 @@ function Map() {
 
   // Handle mouse enter (show tooltip)
   const handleMouseEnter = (event, countyName) => {
-    const mapElement = event.target.closest(".map-container"); // Find the map container
-    const { left, top } = mapElement.getBoundingClientRect();
     const { clientX, clientY } = event;
-
-    // Adjust tooltip position based on mouse position and map container position
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
     setTooltipPosition({
-      x: clientX - left - 20, // Offset for tooltip position
-      y: clientY - top - 70, // Offset for tooltip position
+      x: clientX + scrollX - 170, // Add scroll offset
+      y: clientY + scrollY - 100, // Add scroll offset
     });
-
     setTooltipContent(countyName); // Set county name as tooltip content
   };
 
@@ -250,7 +247,7 @@ function Map() {
         {searchTerm && <div>{`Searching for: ${searchTerm}`}</div>}
       </div>
 
-      <div className="w-4/5 h-4/5 relative map-container">
+      <div className="w-4/5 h-4/5 relative">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{

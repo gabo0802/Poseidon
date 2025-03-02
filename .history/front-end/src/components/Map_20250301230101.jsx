@@ -211,8 +211,8 @@ function Map() {
 
     // Adjust tooltip position based on mouse position and map container position
     setTooltipPosition({
-      x: clientX - left - 20, // Offset for tooltip position
-      y: clientY - top - 70, // Offset for tooltip position
+      x: clientX - left - 80, // Offset for tooltip position
+      y: clientY - top - 80, // Offset for tooltip position
     });
 
     setTooltipContent(countyName); // Set county name as tooltip content
