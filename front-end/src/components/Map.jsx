@@ -258,6 +258,7 @@ function Map() {
         />
       </div>
       {/* Display Flood Risk Text */}
+      
         {/* Map and Info Section */}
       <div
         className={`flex transition-all duration-300 ${
@@ -326,8 +327,8 @@ function Map() {
                 "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
             }}
           >
-            <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>
-            <p>More detailed info about {selectedCounty}...</p>
+            <h2 className="text-xl font-bold">Data for {floodData.city}</h2>
+            <p>More detailed info about {floodData.city}...</p>
             {floodData ? (
       <>
         <p><strong>Flood Risk:</strong> {floodData.flood_risk}</p>
@@ -347,7 +348,7 @@ function Map() {
     ) : (
       <p>No flood data available.</p>
     )}
-  </div>
+          </div>
         )}
       </div>
     </div>
