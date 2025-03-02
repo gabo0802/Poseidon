@@ -207,9 +207,7 @@ function Map() {
       }
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(
-            searchTerm
-          )}`
+          `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(searchTerm)}`
         );
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
@@ -245,9 +243,7 @@ function Map() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(
-          cityName
-        )}`
+        `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(cityName)}`
       );
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
@@ -325,7 +321,9 @@ function Map() {
                       key={geo.rsmKey}
                       geography={geo}
                       fill={
-                        highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
+                        highlightedCounties[countyName]
+                          ? "#FF5733"
+                          : "#D6D6DA"
                       }
                       stroke="#FFFFFF"
                       onClick={() => handleCountyClick(countyName)}
@@ -370,22 +368,119 @@ function Map() {
                 <h2 className="text-xl font-bold text-white text-center">
                   {selectedCity}
                 </h2>
-                <p className="text-white text-center mt-2"></p>
+                <p className="text-white text-center mt-2">
+                </p>
                 {floodData ? (
                   <>
-                    <p><strong>Flood Risk:</strong> {floodData.flood_risk}</p>
-                    <p><strong>Min Temp (°C):</strong> {floodData["min_temp (°C)"]}</p>
-                    <p><strong>Max Temp (°C):</strong> {floodData["max_temp (°C)"]}</p>
-                    <p><strong>Avg Temp (°C):</strong> {floodData["avg_temp (°C)"]}</p>
-                    <p><strong>Avg Humidity (%):</strong> {floodData["avg_humidity (%)"]}</p>
-                    <p><strong>Max Wind Speed (m/s):</strong> {floodData["max_wind_speed (m/s)"]}</p>
-                    <p><strong>Wind Direction at Max (°):</strong> {floodData["wind_direction_at_max (°)"]}</p>
-                    <p><strong>Avg Wind Speed (m/s):</strong> {floodData["avg_wind_speed (m/s)"]}</p>
-                    <p><strong>Rainfall (mm):</strong> {floodData["rainfall (mm)"]}</p>
-                    <p>
-                      <strong>Rainfall-Humidity Interaction:</strong>{" "}
-                      {floodData["rainfall_humidity_interaction"]}
-                    </p>
+                    {/* New container to stack the prediction text and icon in a column */}
+                    <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[100px] h-[100px]"
+                          src="src/assets/forecasting.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                          <strong>Flood Prediction:</strong> {floodData.flood_risk}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/cold-exposure.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                          <strong>Min Temp:</strong> {floodData["min_temp (°C)"]}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/severe-weather.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                          <strong>Max Temp:</strong> {floodData["max_temp (°C)"]}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/thermometer.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                          <strong>Avg Temp:</strong> {floodData["avg_temp (°C)"]}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/haze.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                          <strong>Avg Humidity:</strong> {floodData["avg_humidity (%)"]}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/speedometer.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                        <strong>Max Wind Speed (m/s):</strong> {floodData["max_wind_speed (m/s)"]}
+                      </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[100px] h-[100px]"
+                          src="src/assets/directions.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                        <strong>Wind Direction at Max (°):</strong> {floodData["wind_direction_at_max (°)"]}
+                      </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/speedometer.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                        <strong>Avg Wind Speed (m/s):</strong> {floodData["avg_wind_speed (m/s)"]}                      </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/drop.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                        <strong>Rainfall (mm):</strong> {floodData["rainfall (mm)"]}                      </p>
+                      </div>
+
+                      <div className="flex flex-col items-center py-9">
+                      <img
+                          className="w-[80px] h-[80px]"
+                          src="src/assets/recycle.png"
+                          alt="forecasting icon"
+                        />
+                        <p className="text-white py-2 text-[19px]">
+                        <strong>Rainfall-Humidity Interaction:</strong> {floodData["rainfall_humidity_interaction"]}                      </p>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <p className="text-white flex flex-col items-center py-9">Loading flood data...</p>
