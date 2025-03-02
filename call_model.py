@@ -80,9 +80,9 @@ def fetch_weather_data(latitude: float, longitude: float) -> dict:
     rainfall_humidity_interaction = rainfall * avg_humidity
     
     aggregated_weather = {
-        "min_temp (°C)": min_temp,
-        "max_temp (°C)": max_temp,
-        "avg_temp (°C)": avg_temp,
+        "min_temp (°F)": round(float(weather_data["min_temp (°C)"]) * 9/5 + 32, 2),
+        "max_temp (°F)": round(float(weather_data["max_temp (°C)"]) * 9/5 + 32, 2),
+        "avg_temp (°F)": round(float(weather_data["avg_temp (°C)"]) * 9/5 + 32, 2),
         "avg_humidity (%)": avg_humidity,
         "max_wind_speed (m/s)": max_wind_speed,
         "wind_direction_at_max (°)": wind_direction_at_max,

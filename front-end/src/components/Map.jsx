@@ -402,7 +402,7 @@ function Map() {
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
-                          <strong>Min Temp:</strong> {floodData["min_temp (°C)"]}
+                          <strong>Min Temp °F:</strong> {floodData["min_temp (°C)"]}
                         </p>
                       </div>
 
@@ -413,7 +413,7 @@ function Map() {
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
-                          <strong>Max Temp:</strong> {floodData["max_temp (°C)"]}
+                          <strong>Max Temp °F:</strong> {floodData["max_temp (°C)"]}
                         </p>
                       </div>
 
@@ -424,7 +424,7 @@ function Map() {
                           alt="forecasting icon"
                         />
                         <p className="text-white py-2 text-[19px]">
-                          <strong>Avg Temp:</strong> {floodData["avg_temp (°C)"]}
+                          <strong>Avg Temp °F:</strong> {floodData["avg_temp (°C)"]}
                         </p>
                       </div>
 
