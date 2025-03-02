@@ -14,3 +14,12 @@ sklearn==0.0
 threadpoolctl==3.5.0
 Werkzeug==3.1.3
 zipp==3.21.0
+fastapi==0.95.1
+uvicorn==0.22.0
+joblib==1.4.2
+numpy==2.0.2
+pandas==2.2.2
+scikit-learn==1.6.1
+lightgbm==3.3.2  # or whichever version you need
+requests==2.28.2
+
