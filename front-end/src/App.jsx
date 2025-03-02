@@ -10,7 +10,7 @@ function App() {
       <Header />
       <LandingPage />
       <Map />
-      <ApiCaller />
+      {/* Uncomment to test API <ApiCaller /> */}
 
       <Footer />
     </div>
