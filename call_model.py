@@ -84,22 +84,27 @@ def fetch_weather_data(latitude: float, longitude: float) -> dict:
 
 @app.get("/predict_flood_by_city/")
 def predict_flood(city: str):
-    coords = geocode_city(city)
-    lat = coords["lat"]
-    lon = coords["lon"]
-    weather_data = fetch_weather_data(lat, lon)
-    input_data = pd.DataFrame([weather_data])
-    flood_risk = model.predict(input_data)
+    try:
+        coords = geocode_city(city)
+        lat = coords["lat"]
+        lon = coords["lon"]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error in geocoding: {e}")
+
+    try:
+        weather_data = fetch_weather_data(lat, lon)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching weather data: {e}")
+
+    try:
+        input_data = pd.DataFrame([weather_data])
+        flood_risk = model.predict(input_data)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error during model prediction: {e}")
 
     risk_value = int(round(float(flood_risk[0]), 0))
-    if risk_value == 0:
-        risk_label = "Safe"
-    elif risk_value == 1:
-        risk_label = "Danger"
-    else:
-        risk_label = str(risk_value)
+    risk_label = "Safe" if risk_value == 0 else "Danger" if risk_value == 1 else str(risk_value)
 
-    # return the prediction as a JSON response
     return JSONResponse(content={
         "city": city,
         "location": f"{lat}, {lon}",
