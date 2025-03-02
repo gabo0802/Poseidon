@@ -7,7 +7,6 @@ import lightgbm as lgb
 from imblearn.pipeline import Pipeline as imbPipeline
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import StandardScaler
-import pickle as pickle
 import joblib
 
 data = pd.read_csv('data_finish.csv')
@@ -45,8 +44,7 @@ print(data.head)
 # featured engineering that captures combined affects of these variables on floods
 data['rainfall_humidity_interaction'] = data['rainfall (mm)'] * data['avg_humidity (%)']
 
-features = ['min_temp (°C)', 'max_temp (°C)', 'avg_temp (°C)', 'avg_humidity (%)',
-            'sunshine_duration (hours)', 'max_wind_speed (m/s)', 'wind_direction_at_max (°)',
+features = ['min_temp (°C)', 'max_temp (°C)', 'avg_temp (°C)', 'avg_humidity (%)', 'max_wind_speed (m/s)', 'wind_direction_at_max (°)',
             'avg_wind_speed (m/s)', 'rainfall (mm)',
             'rainfall_humidity_interaction']
 X = data[features]
@@ -109,7 +107,6 @@ test_data = pd.DataFrame({
     'max_temp (°C)': 35, 
     'avg_temp (°C)': 29.05, 
     'avg_humidity (%)': 75,
-    'sunshine_duration (hours)': 3.5, 
     'max_wind_speed (m/s)': 5, 
     'wind_direction_at_max (°)': 180,
     'avg_wind_speed (m/s)': 1, 
@@ -121,4 +118,4 @@ best_model.fit(X, y)
 predicted_flood = best_model.predict(test_data)
 print(f"Chance of Flood:{predicted_flood[0]:.2f}")
 
-joblib.dump(best_model, 'model.pkl')
+joblib.dump(best_model, 'best_model.pkl')
