@@ -73,7 +73,7 @@ _Flood prediction details for a particular city, demonstrating the application's
 3. Install the required packages:
 
    ```sh
-   pip install -r train_requirements.txt
+   pip install -r train_reqs.txt
    ```
 
 4. Run the backend from the root directory:
