@@ -20,6 +20,29 @@ function LandingPage() {
         }
     };
 
+    const moveLeft = (event) => {
+        event.preventDefault();
+        const carousel = carouselRef.current;
+        if (carousel) {
+            const currentScroll = carousel.scrollLeft;
+            const itemWidth = carousel.querySelector('.carousel-item').getBoundingClientRect().width;
+            carousel.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+        }
+    };
+
+    const moveCarousel = (direction, event = null) => {
+        if (event) event.preventDefault(); // Prevent default if event exists
+    
+        const carousel = carouselRef.current;
+        if (carousel) {
+            const item = carousel.querySelector('.carousel-item'); // Get the first item to determine width
+            if (item) {
+                const itemWidth = item.getBoundingClientRect().width;
+                carousel.scrollBy({ left: direction * itemWidth, behavior: 'smooth' });
+            }
+        }
+    };
+
     return (
         <div>
             <div 
@@ -32,7 +55,17 @@ function LandingPage() {
                         <div className="text-4xl font-bold text-black">Florida's Flood Risk Management Platform</div>
                         <br />
                         <br />
-            
+
+                        <div className="relative flex items-center justify-center w-full">
+                        {/* Left Button */}
+                        <button 
+                            onClick={(e) => moveCarousel(-1, e)} 
+                            className="absolute left-0 z-10 btn btn-circle bg-black shadow-lg"
+                        >
+                            ❮
+                        </button>
+
+                        {/* Carousel */}
                         <div ref={carouselRef} className="carousel carousel-center bg-transparent rounded-box max-w-2xl space-x-8 overflow-x-auto snap-x scroll-smooth">
                             <div id="item1" className="carousel-item snap-center m-5 card h-90 w-96">
                                 <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
@@ -60,6 +93,14 @@ function LandingPage() {
                             </div>
                         </div>
 
+                        {/* Right Button */}
+                        <button 
+                            onClick={(e) => moveCarousel(1, e)} 
+                            className="absolute right-0 z-10 btn btn-circle bg-black shadow-lg"
+                        >
+                            ❯
+                        </button>
+                    </div>
                         {/* Navigation buttons */}
                         <div className="flex w-full justify-center gap-2 py-2">
                             <button onClick={(e) => moveToItem(1, e)} className="btn btn-xs">1</button>
