@@ -110,7 +110,7 @@ function LandingPage() {
                   className="carousel-item snap-center m-5 card h-90 w-110"
                   initial={{ x: -200, opacity: 0 }} // Start from the left and fade in
                   animate={{ x: 0, opacity: 1 }} // Animate to normal position and fully visible
-                  transition={{ duration: 0.8, delay: 1.1 }} // 0.8 second transition
+                  transition={{ duration: 0.8 }} // 0.8 second transition
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
@@ -131,7 +131,7 @@ function LandingPage() {
                   className="carousel-item snap-center m-5 card h-90 w-110"
                   initial={{ x: -200, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.2 }} // Add a delay for the second item
+                  transition={{ duration: 0.8, delay: 0.2 }} // Add a delay for the second item
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
@@ -150,7 +150,7 @@ function LandingPage() {
                   className="carousel-item snap-center m-5 card h-90 w-110"
                   initial={{ x: -200, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.3 }} // Add a delay for the third item
+                  transition={{ duration: 0.8, delay: 0.4 }} // Add a delay for the third item
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">

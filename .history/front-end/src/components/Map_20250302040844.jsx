@@ -158,16 +158,17 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
   const [selectedCounty, setSelectedCounty] = useState(null);
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
-  const { scrollY } = useScroll();
+  const { scrollY } = useScroll(); // Get the scroll position
 
-  const opacity = useTransform(scrollY, [250, 550], [0, 1]);
-  const yPosition = useTransform(scrollY, [0, 300], [-50, 0]);
+  const opacity = useTransform(scrollY, [250, 550], [0, 1]); // Fades in between 0px and 300px scroll
+  const yPosition = useTransform(scrollY, [0, 300], [-50, 0]); // Moves up into position
 
   const findCountiesByCity = (city) => {
     let countiesFound = [];
@@ -239,7 +240,7 @@ function Map() {
     >
       <motion.div
         className="absolute bg-white rounded-lg top-4 left-1/2 transform -translate-x-1/2 w-1/2 z-50"
-        style={{ opacity, y: yPosition }}
+        style={{ opacity, y: yPosition }} // Apply opacity and y translation
       >
         <input
           type="text"
@@ -257,10 +258,11 @@ function Map() {
           selectedCounty ? "w-[75%]" : "w-full"
         } h-[85%] items-center`}
       >
-        <div
+        <motion.div
           className={`relative map-container transition-all duration-300 ${
             selectedCounty ? "w-2/3" : "w-full"
           } h-full`}
+          style={{ opacity, y: yPosition }} // Apply animation effects
         >
           <ComposableMap
             projection="geoMercator"
@@ -309,29 +311,18 @@ function Map() {
               {tooltipContent}
             </div>
           )}
-        </div>
+        </motion.div>
 
         {selectedCounty && (
           <div
-            className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl flex flex-col"
+            className="w-1/3 h-[80%] p-4 shadow-2xl overflow-auto backdrop-blur-lg rounded-xl"
             style={{
               background:
                 "linear-gradient(to bottom, rgba(255, 82, 2, 0.85), rgba(255, 143, 92, 0.85))",
             }}
           >
-            <h2 className="text-xl font-bold text-white text-center">
-              {selectedCounty}
-            </h2>
-            <div className="mt-4 flex flex-wrap gap-2 justify-center">
-              {counties[selectedCounty]?.map((city) => (
-                <button
-                  key={city}
-                  className="bg-white text-black px-3 py-2 rounded-lg shadow-md hover:bg-gray-300 transition-all"
-                >
-                  {city}
-                </button>
-              ))}
-            </div>
+            <h2 className="text-xl font-bold">Data for {selectedCounty}</h2>
+            <p>More detailed info about {selectedCounty}...</p>
           </div>
         )}
       </div>

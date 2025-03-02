@@ -1,6 +1,5 @@
 import backgroundImage from "../../public/background-img.jpg";
 import React, { useRef } from "react";
-import { motion } from "framer-motion";
 
 function LandingPage() {
   const carouselRef = useRef(null); // ✅ useRef should be inside the component
@@ -51,19 +50,14 @@ function LandingPage() {
   };
 
   return (
-    <div id="description">
+    <div>
       <div
         className="box-border bg-opacity-90 bg-cover bg-center bg-no-repeat min-h-screen"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="flex justify-center h-screen">
           <div className="flex flex-col justify-center items-center">
-            <motion.div
-              className="text-8xl font-bold text-black"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2 }} // Animation duration
-            >
+            <div className="text-8xl font-bold text-black">
               P
               <span className="bg-gradient-to-r from-[#ff5202] to-[#ff8f5c] bg-clip-text text-transparent">
                 o
@@ -73,18 +67,10 @@ function LandingPage() {
                 o
               </span>
               n
-            </motion.div>
-            <motion.div
-              className="text-4xl font-bold text-black"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, delay: 1.1 }} // Animation duration
-            >
+            </div>
+            <div className="text-4xl font-bold text-black">
               Florida's Flash Flood Risk Management Platform
-            </motion.div>
-            {/* <div className="text-4xl font-bold text-black">
-              Florida's Flash Flood Risk Management Platform
-            </div> */}
+            </div>
             <br />
             <br />
 
@@ -98,71 +84,54 @@ function LandingPage() {
               </button>
 
               {/* Carousel */}
-              <motion.div
+              <div
                 ref={carouselRef}
                 className="carousel carousel-center bg-transparent rounded-box max-w-2xl space-x-8 overflow-x-auto snap-x scroll-smooth"
-                initial={{ opacity: 0 }} // Start with opacity 0
-                animate={{ opacity: 1 }} // Fade in to opacity 1
-                transition={{ duration: 1, delay: 1.1 }} // 1 second transition
               >
-                <motion.div
+                <div
                   id="item1"
-                  className="carousel-item snap-center m-5 card h-90 w-110"
-                  initial={{ x: -200, opacity: 0 }} // Start from the left and fade in
-                  animate={{ x: 0, opacity: 1 }} // Animate to normal position and fully visible
-                  transition={{ duration: 0.8, delay: 1.1 }} // 0.8 second transition
+                  className="carousel-item snap-center m-5 card h-90 w-96"
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
-                      <h2 className="font-semibold text-2xl">
-                        Florida 2024 Hurricane Season
-                      </h2>
+                      <h2>Florida 2024 Huricane Season</h2>
                     </div>
-                    <p className="m-10 text-xl">
+                    <p className="m-10">
                       In 2024, record-breaking floods in Florida forced over 1
                       million evacuations, submerged thousands of homes, and
                       left 500,000 people homeless.
                     </p>
                   </div>
-                </motion.div>
-
-                <motion.div
+                </div>
+                <div
                   id="item2"
-                  className="carousel-item snap-center m-5 card h-90 w-110"
-                  initial={{ x: -200, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.2 }} // Add a delay for the second item
+                  className="carousel-item snap-center m-5 card h-90 w-96"
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
-                      <h2 className="font-semibold text-2xl">Our Mission</h2>
+                      <h2>Card Title</h2>
                     </div>
-                    <p className="m-10 text-xl">
-                      Leveraging the power of AI/ML, we can take precautionary
-                      measures to ensure tragedies like this are prevented in
-                      the future.
+                    <p className="m-10">
+                      A card component has a figure, a body part, and inside
+                      body there are title and actions parts.
                     </p>
                   </div>
-                </motion.div>
-
-                <motion.div
+                </div>
+                <div
                   id="item3"
-                  className="carousel-item snap-center m-5 card h-90 w-110"
-                  initial={{ x: -200, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.3 }} // Add a delay for the third item
+                  className="carousel-item snap-center m-5 card h-90 w-96"
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
-                      <h2 className="font-semibold text-2xl">Call to Action</h2>
+                      <h2>Card Title</h2>
                     </div>
-                    <p className="m-10 text-xl">
-                      Join us in helping communities prepare for hurricanes.
-                      Learn more and get involved today!
+                    <p className="m-10">
+                      A card component has a figure, a body part, and inside
+                      body there are title and actions parts.
                     </p>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* Right Button */}
               <button

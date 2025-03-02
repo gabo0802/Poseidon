@@ -98,24 +98,18 @@ function LandingPage() {
               </button>
 
               {/* Carousel */}
-              <motion.div
+              <div
                 ref={carouselRef}
                 className="carousel carousel-center bg-transparent rounded-box max-w-2xl space-x-8 overflow-x-auto snap-x scroll-smooth"
-                initial={{ opacity: 0 }} // Start with opacity 0
-                animate={{ opacity: 1 }} // Fade in to opacity 1
-                transition={{ duration: 1, delay: 1.1 }} // 1 second transition
               >
-                <motion.div
+                <div
                   id="item1"
                   className="carousel-item snap-center m-5 card h-90 w-110"
-                  initial={{ x: -200, opacity: 0 }} // Start from the left and fade in
-                  animate={{ x: 0, opacity: 1 }} // Animate to normal position and fully visible
-                  transition={{ duration: 0.8, delay: 1.1 }} // 0.8 second transition
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
                       <h2 className="font-semibold text-2xl">
-                        Florida 2024 Hurricane Season
+                        Florida 2024 Huricane Season
                       </h2>
                     </div>
                     <p className="m-10 text-xl">
@@ -124,14 +118,10 @@ function LandingPage() {
                       left 500,000 people homeless.
                     </p>
                   </div>
-                </motion.div>
-
-                <motion.div
+                </div>
+                <div
                   id="item2"
                   className="carousel-item snap-center m-5 card h-90 w-110"
-                  initial={{ x: -200, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.2 }} // Add a delay for the second item
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
@@ -143,14 +133,10 @@ function LandingPage() {
                       the future.
                     </p>
                   </div>
-                </motion.div>
-
-                <motion.div
+                </div>
+                <div
                   id="item3"
                   className="carousel-item snap-center m-5 card h-90 w-110"
-                  initial={{ x: -200, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.3 }} // Add a delay for the third item
                 >
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
@@ -161,8 +147,8 @@ function LandingPage() {
                       Learn more and get involved today!
                     </p>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* Right Button */}
               <button
