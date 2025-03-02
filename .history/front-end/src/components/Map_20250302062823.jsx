@@ -28,8 +28,7 @@ const counties = {
   Collier: ["Naples", "Marco Island", "Immokalee"],
   Columbia: ["Lake City", "Fort White", "White Springs"],
   DeSoto: ["Arcadia", "Nocatee", "Astatula"],
-  Suwannee: ["Live Oak", "Branford", "Wellborn"],
-  Dixie: ["Cross City", "Old Town"],
+  Dixie: ["Cross City", "Old Town", "Suwannee"],
   Duval: [
     "Jacksonville",
     "Atlantic Beach",
@@ -172,6 +171,7 @@ function Map() {
   const opacity = useTransform(scrollY, [250, 550], [0, 1]);
   const yPosition = useTransform(scrollY, [0, 300], [-50, 0]);
   const [floodData, setFloodData] = useState(null);
+  const [currentFloodDataIndex, setCurrentFloodDataIndex] = useState(0);
 
   // Helper function: find counties containing the city name
   const findCountiesByCity = (city) => {
@@ -216,6 +216,7 @@ function Map() {
         }
         const data = await response.json();
         setFloodData(data);
+        setCurrentFloodDataIndex(0); // Reset carousel index
       } catch (error) {
         console.error("API error:", error);
         setFloodData({ error: "Error fetching flood risk data." });
@@ -254,6 +255,7 @@ function Map() {
       }
       const data = await response.json();
       setFloodData(data);
+      setCurrentFloodDataIndex(0); // Reset carousel index
     } catch (error) {
       console.error("API error:", error);
       setFloodData({ error: "Error fetching flood risk data." });
@@ -274,6 +276,18 @@ function Map() {
 
   const handleMouseLeave = () => {
     setTooltipContent("");
+  };
+
+  const handleNext = () => {
+    if (floodData && currentFloodDataIndex < floodData.length - 1) {
+      setCurrentFloodDataIndex(currentFloodDataIndex + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (floodData && currentFloodDataIndex > 0) {
+      setCurrentFloodDataIndex(currentFloodDataIndex - 1);
+    }
   };
 
   return (
@@ -370,25 +384,66 @@ function Map() {
                 <h2 className="text-xl font-bold text-white text-center">
                   {selectedCity}
                 </h2>
-                <p className="text-white text-center mt-2"></p>
+                <div className="mt-4 flex justify-between items-center">
+                  <button
+                    onClick={handlePrevious}
+                    disabled={currentFloodDataIndex === 0}
+                    className="bg-white text-black px-3 py-2 rounded-lg shadow-md hover:bg-gray-300 transition-all"
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    disabled={currentFloodDataIndex === floodData.length - 1}
+                    className="bg-white text-black px-3 py-2 rounded-lg shadow-md hover:bg-gray-300 transition-all"
+                  >
+                    Next
+                  </button>
+                </div>
                 {floodData ? (
                   <>
-                    <p><strong>Flood Risk:</strong> {floodData.flood_risk}</p>
-                    <p><strong>Min Temp (°C):</strong> {floodData["min_temp (°C)"]}</p>
-                    <p><strong>Max Temp (°C):</strong> {floodData["max_temp (°C)"]}</p>
-                    <p><strong>Avg Temp (°C):</strong> {floodData["avg_temp (°C)"]}</p>
-                    <p><strong>Avg Humidity (%):</strong> {floodData["avg_humidity (%)"]}</p>
-                    <p><strong>Max Wind Speed (m/s):</strong> {floodData["max_wind_speed (m/s)"]}</p>
-                    <p><strong>Wind Direction at Max (°):</strong> {floodData["wind_direction_at_max (°)"]}</p>
-                    <p><strong>Avg Wind Speed (m/s):</strong> {floodData["avg_wind_speed (m/s)"]}</p>
-                    <p><strong>Rainfall (mm):</strong> {floodData["rainfall (mm)"]}</p>
+                    <p>
+                      <strong>Flood Risk:</strong> {floodData.flood_risk}
+                    </p>
+                    <p>
+                      <strong>Min Temp (°C):</strong>{" "}
+                      {floodData["min_temp (°C)"]}
+                    </p>
+                    <p>
+                      <strong>Max Temp (°C):</strong>{" "}
+                      {floodData["max_temp (°C)"]}
+                    </p>
+                    <p>
+                      <strong>Avg Temp (°C):</strong>{" "}
+                      {floodData["avg_temp (°C)"]}
+                    </p>
+                    <p>
+                      <strong>Avg Humidity (%):</strong>{" "}
+                      {floodData["avg_humidity (%)"]}
+                    </p>
+                    <p>
+                      <strong>Max Wind Speed (m/s):</strong>{" "}
+                      {floodData["max_wind_speed (m/s)"]}
+                    </p>
+                    <p>
+                      <strong>Wind Direction at Max (°):</strong>{" "}
+                      {floodData["wind_direction_at_max (°)"]}
+                    </p>
+                    <p>
+                      <strong>Avg Wind Speed (m/s):</strong>{" "}
+                      {floodData["avg_wind_speed (m/s)"]}
+                    </p>
+                    <p>
+                      <strong>Rainfall (mm):</strong>{" "}
+                      {floodData["rainfall (mm)"]}
+                    </p>
                     <p>
                       <strong>Rainfall-Humidity Interaction:</strong>{" "}
                       {floodData["rainfall_humidity_interaction"]}
                     </p>
                   </>
                 ) : (
-                  <p className="text-white flex flex-col items-center py-9">Loading flood data...</p>
+                  <p>Loading flood data...</p>
                 )}
               </>
             ) : (
