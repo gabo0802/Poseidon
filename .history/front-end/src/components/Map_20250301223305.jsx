@@ -157,11 +157,10 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
-  const [tooltipContent, setTooltipContent] = useState(""); // Store tooltip content
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // Position of the tooltip
 
   // Find counties by city (your original function)
   const findCountiesByCity = (city) => {
@@ -203,18 +202,6 @@ function Map() {
     }));
   };
 
-  // Handle mouse enter (show tooltip)
-  const handleMouseEnter = (event, countyName) => {
-    const { clientX, clientY } = event;
-    setTooltipPosition({ x: clientX + 10, y: clientY + 10 }); // Add offset for better positioning
-    setTooltipContent(countyName); // Set county name as tooltip content
-  };
-
-  // Handle mouse leave (hide tooltip)
-  const handleMouseLeave = () => {
-    setTooltipContent(""); // Hide tooltip when mouse leaves the county
-  };
-
   return (
     <div
       className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
@@ -242,7 +229,7 @@ function Map() {
         {searchTerm && <div>{`Searching for: ${searchTerm}`}</div>}
       </div>
 
-      <div className="w-4/5 h-4/5 relative">
+      <div className="w-4/5 h-4/5">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
@@ -261,12 +248,12 @@ function Map() {
                     key={geo.rsmKey}
                     geography={geo}
                     fill={
-                      highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
-                    } // Highlight color
+                      highlightedCounties[countyName]
+                        ? "#FF5733" // Highlighted county color
+                        : "#D6D6DA" // Default color for other counties
+                    }
                     stroke="#FFFFFF"
                     onClick={() => handleCountyClick(countyName)}
-                    onMouseEnter={(e) => handleMouseEnter(e, countyName)} // Show tooltip on hover
-                    onMouseLeave={handleMouseLeave} // Hide tooltip when mouse leaves
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none", fill: "#ECEFF1" },
@@ -278,20 +265,6 @@ function Map() {
             }
           </Geographies>
         </ComposableMap>
-
-        {/* Tooltip displayed on hover */}
-        {tooltipContent && (
-          <div
-            className="absolute bg-black text-white p-2 rounded"
-            style={{
-              left: `${tooltipPosition.x}px`,
-              top: `${tooltipPosition.y}px`,
-              pointerEvents: "none", // Ensures the tooltip doesn't block interactions
-            }}
-          >
-            {tooltipContent}
-          </div>
-        )}
       </div>
     </div>
   );

@@ -160,8 +160,6 @@ const counties = {
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
-  const [tooltipContent, setTooltipContent] = useState(""); // Store tooltip content
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // Position of the tooltip
 
   // Find counties by city (your original function)
   const findCountiesByCity = (city) => {
@@ -193,26 +191,6 @@ function Map() {
         console.log("City not found in Florida.");
       }
     }
-  };
-
-  // Handle county click
-  const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
-    }));
-  };
-
-  // Handle mouse enter (show tooltip)
-  const handleMouseEnter = (event, countyName) => {
-    const { clientX, clientY } = event;
-    setTooltipPosition({ x: clientX + 10, y: clientY + 10 }); // Add offset for better positioning
-    setTooltipContent(countyName); // Set county name as tooltip content
-  };
-
-  // Handle mouse leave (hide tooltip)
-  const handleMouseLeave = () => {
-    setTooltipContent(""); // Hide tooltip when mouse leaves the county
   };
 
   return (
@@ -261,15 +239,16 @@ function Map() {
                     key={geo.rsmKey}
                     geography={geo}
                     fill={
-                      highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
-                    } // Highlight color
+                      highlightedCounties[countyName]
+                        ? "#FF5733" // Highlighted county color
+                        : "#D6D6DA" // Default color for other counties
+                    }
                     stroke="#FFFFFF"
-                    onClick={() => handleCountyClick(countyName)}
-                    onMouseEnter={(e) => handleMouseEnter(e, countyName)} // Show tooltip on hover
-                    onMouseLeave={handleMouseLeave} // Hide tooltip when mouse leaves
+                    data-tip={countyName} // Add a data-tip attribute with county name
+                    onClick={() => console.log(`Clicked county: ${countyName}`)}
                     style={{
                       default: { outline: "none" },
-                      hover: { outline: "none", fill: "#ECEFF1" },
+                      hover: { outline: "none", fill: "#ECEFF1" }, // Hover state style
                       pressed: { outline: "none", fill: "#BDBDBD" },
                     }}
                   />
@@ -279,19 +258,8 @@ function Map() {
           </Geographies>
         </ComposableMap>
 
-        {/* Tooltip displayed on hover */}
-        {tooltipContent && (
-          <div
-            className="absolute bg-black text-white p-2 rounded"
-            style={{
-              left: `${tooltipPosition.x}px`,
-              top: `${tooltipPosition.y}px`,
-              pointerEvents: "none", // Ensures the tooltip doesn't block interactions
-            }}
-          >
-            {tooltipContent}
-          </div>
-        )}
+        {/* ReactTooltip renders the tooltip, and the tooltip shows only on hover */}
+        <ReactTooltip place="top" type="dark" effect="float" />
       </div>
     </div>
   );

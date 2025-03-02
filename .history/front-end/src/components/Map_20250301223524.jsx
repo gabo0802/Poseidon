@@ -195,24 +195,15 @@ function Map() {
     }
   };
 
-  // Handle county click
-  const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
-    }));
-  };
-
-  // Handle mouse enter (show tooltip)
   const handleMouseEnter = (event, countyName) => {
+    // Get position of the cursor for the tooltip
     const { clientX, clientY } = event;
-    setTooltipPosition({ x: clientX + 10, y: clientY + 10 }); // Add offset for better positioning
-    setTooltipContent(countyName); // Set county name as tooltip content
+    setTooltipPosition({ x: clientX + 10, y: clientY + 10 }); // Adding an offset for better positioning
+    setTooltipContent(countyName); // Set the county name as the tooltip content
   };
 
-  // Handle mouse leave (hide tooltip)
   const handleMouseLeave = () => {
-    setTooltipContent(""); // Hide tooltip when mouse leaves the county
+    setTooltipContent(""); // Hide the tooltip when mouse leaves the county
   };
 
   return (
@@ -261,10 +252,12 @@ function Map() {
                     key={geo.rsmKey}
                     geography={geo}
                     fill={
-                      highlightedCounties[countyName] ? "#FF5733" : "#D6D6DA"
-                    } // Highlight color
+                      highlightedCounties[countyName]
+                        ? "#FF5733" // Highlighted county color
+                        : "#D6D6DA" // Default color for other counties
+                    }
                     stroke="#FFFFFF"
-                    onClick={() => handleCountyClick(countyName)}
+                    onClick={() => console.log(`Clicked county: ${countyName}`)}
                     onMouseEnter={(e) => handleMouseEnter(e, countyName)} // Show tooltip on hover
                     onMouseLeave={handleMouseLeave} // Hide tooltip when mouse leaves
                     style={{
@@ -279,14 +272,14 @@ function Map() {
           </Geographies>
         </ComposableMap>
 
-        {/* Tooltip displayed on hover */}
+        {/* Tooltip is shown when hovering over the county */}
         {tooltipContent && (
           <div
             className="absolute bg-black text-white p-2 rounded"
             style={{
               left: `${tooltipPosition.x}px`,
               top: `${tooltipPosition.y}px`,
-              pointerEvents: "none", // Ensures the tooltip doesn't block interactions
+              pointerEvents: "none", // Prevents tooltip from blocking mouse events
             }}
           >
             {tooltipContent}
