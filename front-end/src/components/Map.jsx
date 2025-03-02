@@ -487,7 +487,7 @@ function Map() {
                           src="/recycle.png"
                           alt="forecasting icon"
                         />
-                        <p className="text-white py-2 text-[19px]">
+                        <p className="flex flex-col items-center text-white py-2 text-[19px]">
                         <strong>Rainfall-Humidity Interaction:</strong> {floodData["rainfall_humidity_interaction"]}                      </p>
                       </div>
                     </div>
