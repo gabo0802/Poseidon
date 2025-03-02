@@ -207,7 +207,7 @@ function Map() {
       }
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/predict_flood_by_city/?city=${encodeURIComponent(searchTerm)}`
+          `https://poseidon-cfc-3c2595113bb7.herokuapp.com/predict_flood_by_city/?city=${encodeURIComponent(cityName)}`
         );
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
