@@ -155,7 +155,6 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
-
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
@@ -190,14 +189,6 @@ function Map() {
         console.log("City not found in Florida.");
       }
     }
-  };
-
-  // Handle county click
-  const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
-    }));
   };
 
   return (
@@ -251,7 +242,7 @@ function Map() {
                         : "#D6D6DA" // Default color for other counties
                     }
                     stroke="#FFFFFF"
-                    onClick={() => handleCountyClick(countyName)}
+                    onClick={() => console.log(`Clicked county: ${countyName}`)}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none", fill: "#ECEFF1" },

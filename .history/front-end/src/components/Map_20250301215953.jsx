@@ -155,7 +155,6 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
-
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
@@ -192,17 +191,9 @@ function Map() {
     }
   };
 
-  // Handle county click
-  const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
-    }));
-  };
-
   return (
     <div
-      className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="w-screen h-screen flex flex-col items-center justify-center overflow-x"
       style={{
         background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)", // Gradient from bottom left to top right
       }}
@@ -251,7 +242,7 @@ function Map() {
                         : "#D6D6DA" // Default color for other counties
                     }
                     stroke="#FFFFFF"
-                    onClick={() => handleCountyClick(countyName)}
+                    onClick={() => console.log(`Clicked county: ${countyName}`)}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none", fill: "#ECEFF1" },

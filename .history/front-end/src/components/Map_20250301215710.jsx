@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import ReactTooltip from "react-tooltip";
 
 const geoUrl = "./florida-counties.json";
 
@@ -155,10 +156,12 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+const geoUrl = "./florida-counties.json";
 
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
+  const [tooltipContent, setTooltipContent] = useState("");
 
   // Find counties by city (your original function)
   const findCountiesByCity = (city) => {
@@ -194,9 +197,9 @@ function Map() {
 
   // Handle county click
   const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
+    setHighlightedCounties((prev) => ({
+      ...prev,
+      [countyName]: !prev[countyName], // Toggle the highlight state
     }));
   };
 
@@ -235,6 +238,7 @@ function Map() {
             center: [-83, 28], // Approximate center of Florida
           }}
           className="w-full h-full"
+          data-tip=""
         >
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
@@ -252,6 +256,12 @@ function Map() {
                     }
                     stroke="#FFFFFF"
                     onClick={() => handleCountyClick(countyName)}
+                    onMouseEnter={() => {
+                      setTooltipContent(countyName);
+                    }}
+                    onMouseLeave={() => {
+                      setTooltipContent("");
+                    }}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none", fill: "#ECEFF1" },
@@ -263,6 +273,7 @@ function Map() {
             }
           </Geographies>
         </ComposableMap>
+        <ReactTooltip>{tooltipContent}</ReactTooltip>
       </div>
     </div>
   );

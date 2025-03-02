@@ -192,14 +192,6 @@ function Map() {
     }
   };
 
-  // Handle county click
-  const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
-    }));
-  };
-
   return (
     <div
       className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
@@ -251,7 +243,7 @@ function Map() {
                         : "#D6D6DA" // Default color for other counties
                     }
                     stroke="#FFFFFF"
-                    onClick={() => handleCountyClick(countyName)}
+                    onClick={() => console.log(`Clicked county: ${countyName}`)}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none", fill: "#ECEFF1" },

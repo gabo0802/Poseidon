@@ -155,10 +155,14 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+import React, { useState } from "react";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
+  const [hoveredCounty, setHoveredCounty] = useState(null); // State for hovered county
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // Position of the tooltip
 
   // Find counties by city (your original function)
   const findCountiesByCity = (city) => {
@@ -192,12 +196,17 @@ function Map() {
     }
   };
 
-  // Handle county click
-  const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
-    }));
+  // Handle hover over a county
+  const handleMouseEnter = (countyName, event) => {
+    setHoveredCounty(countyName);
+    setTooltipPosition({
+      x: event.clientX + 10, // Offset the tooltip a little to the right
+      y: event.clientY + 10, // Offset the tooltip a little below the cursor
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredCounty(null);
   };
 
   return (
@@ -227,7 +236,21 @@ function Map() {
         {searchTerm && <div>{`Searching for: ${searchTerm}`}</div>}
       </div>
 
-      <div className="w-4/5 h-4/5">
+      {/* Tooltip */}
+      {hoveredCounty && (
+        <div
+          className="absolute p-2 bg-black text-white rounded"
+          style={{
+            left: tooltipPosition.x,
+            top: tooltipPosition.y,
+            zIndex: 100,
+          }}
+        >
+          {hoveredCounty}
+        </div>
+      )}
+
+      <div className="w-4/5 h-4/5 relative">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
@@ -251,7 +274,11 @@ function Map() {
                         : "#D6D6DA" // Default color for other counties
                     }
                     stroke="#FFFFFF"
-                    onClick={() => handleCountyClick(countyName)}
+                    onClick={() => console.log(`Clicked county: ${countyName}`)}
+                    onMouseEnter={(event) =>
+                      handleMouseEnter(countyName, event)
+                    }
+                    onMouseLeave={handleMouseLeave}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none", fill: "#ECEFF1" },

@@ -155,7 +155,6 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
-
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
@@ -194,9 +193,9 @@ function Map() {
 
   // Handle county click
   const handleCountyClick = (countyName) => {
-    setHighlightedCounties((prevState) => ({
-      ...prevState,
-      [countyName]: !prevState[countyName], // Toggle highlight state
+    setHighlightedCounties((prev) => ({
+      ...prev,
+      [countyName]: !prev[countyName], // Toggle the highlight state
     }));
   };
 
