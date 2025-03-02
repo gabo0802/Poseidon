@@ -193,7 +193,7 @@ function Map() {
 
   return (
     <div
-      className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="w-screen h-screen flex flex-col items-center justify-center overflow-x-hidden"
       style={{
         background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)", // Gradient from bottom left to top right
       }}

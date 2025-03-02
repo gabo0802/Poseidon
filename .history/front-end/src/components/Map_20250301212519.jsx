@@ -192,12 +192,7 @@ function Map() {
   };
 
   return (
-    <div
-      className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{
-        background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)", // Gradient from bottom left to top right
-      }}
-    >
+    <div className="w-screen h-screen bg-gradient-to-br from-[#589FE0] to-[#5CAEDE] flex flex-col items-center justify-center overflow-hidden">
       <div className="text-center py-4">
         <h1 className="text-3xl font-bold">See your Community</h1>
       </div>

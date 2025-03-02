@@ -195,7 +195,7 @@ function Map() {
     <div
       className="w-screen h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{
-        background: "linear-gradient(to top right, #589FE0 92%, #5CAEDE 99%)", // Gradient from bottom left to top right
+        background: "linear-gradient(to top right, #589FE0 90%, #ffffff 95%)", // Gradient from bottom left to top right
       }}
     >
       <div className="text-center py-4">
