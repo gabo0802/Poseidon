@@ -91,11 +91,19 @@ def predict_flood(city: str):
     input_data = pd.DataFrame([weather_data])
     flood_risk = model.predict(input_data)
 
+    risk_value = int(round(float(flood_risk[0]), 0))
+    if risk_value == 0:
+        risk_label = "Safe"
+    elif risk_value == 1:
+        risk_label = "Danger"
+    else:
+        risk_label = str(risk_value)
+
     # return the prediction as a JSON response
     return JSONResponse(content={
         "city": city,
         "location": f"{lat}, {lon}",
-        "flood_risk": round(float(flood_risk[0]), 2),
+        "flood_risk": risk_label,
         "min_temp (°C)": round(float(weather_data["min_temp (°C)"]), 2),
         "max_temp (°C)": round(float(weather_data["max_temp (°C)"]), 2),
         "avg_temp (°C)": round(float(weather_data["avg_temp (°C)"]), 2),

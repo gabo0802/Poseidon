@@ -157,7 +157,7 @@ function LandingPage() {
                       <h2 className="font-semibold text-2xl">Call to Action</h2>
                     </div>
                     <p className="m-10 text-xl">
-                      Join us in helping communities prepare for hurricanes.
+                      Join us in helping communities prepare for floods.
                       Learn more and get involved today!
                     </p>
                   </div>
