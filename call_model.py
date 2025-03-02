@@ -11,16 +11,16 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "https://poseidon-project-final.vercel.app",  # ✅ Replace with your actual Vercel URL
-    "http://localhost:3000",  # ✅ Optional: Allow local development
+    "https://poseidon-project-final.vercel.app", 
+    "https://poseidon-cfc-3c2595113bb7.herokuapp.com",  
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # ✅ Allow Vercel frontend
+    allow_origins=origins,  
     allow_credentials=True,
-    allow_methods=["*"],  # ✅ Allow all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # ✅ Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"], 
 )
 
 model = joblib.load('best_model.pkl')
