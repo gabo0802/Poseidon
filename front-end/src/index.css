@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "tailwindcss";
+@plugin "daisyui";
+
 * {
     margin: 0;
     padding: 0;
@@ -12,4 +15,5 @@ body {
     height: 100%;
     overflow-x: hidden;
     font-family: "Poppins", sans-serif;
+    color: black;
 }
