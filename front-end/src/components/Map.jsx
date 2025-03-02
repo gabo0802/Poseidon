@@ -212,7 +212,7 @@ function Map() {
       }
       try {
         const response = await fetch(
-          `https://poseidon-cfc-3c2595113bb7.herokuapp.com/predict_flood_by_city/?city=${encodeURIComponent(cityName)}`
+          `https://poseidon-cfc-3c2595113bb7.herokuapp.com/predict_flood_by_city/?city=${encodeURIComponent(cityName)}`,
         );
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
