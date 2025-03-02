@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import lightgbm as lgb
-import requests  # Import requests directly from its own package
+import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
