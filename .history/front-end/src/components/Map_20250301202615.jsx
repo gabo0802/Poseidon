@@ -155,36 +155,27 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
 
-  // Find counties by city (your original function)
+  // Find counties by city
   const findCountiesByCity = (city) => {
-    let countiesFound = [];
-    for (let county in counties) {
-      if (counties[county].includes(city)) {
-        countiesFound.push(county);
-      }
-    }
-    return countiesFound;
+    return counties[city] || null; // Returns the county name or null if not found
   };
 
   // Handle key press (Enter)
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      const foundCounties = findCountiesByCity(searchTerm);
-
-      if (foundCounties.length > 0) {
-        // Highlight the found counties
-        const newHighlightedCounties = {};
-        foundCounties.forEach((county) => {
-          newHighlightedCounties[county] = true; // Mark as highlighted
-        });
-        setHighlightedCounties(newHighlightedCounties); // Update state with highlighted counties
-        console.log(
-          `Found and highlighted counties: ${foundCounties.join(", ")}`
-        );
+      const countyName = findCountiesByCity(searchTerm);
+      if (countyName) {
+        // Update state to highlight the county
+        setHighlightedCounties((prevHighlighted) => ({
+          ...prevHighlighted,
+          [countyName]: true, // Set the county to be highlighted
+        }));
+        console.log(`${countyName} has been highlighted.`);
       } else {
         console.log("City not found in Florida.");
       }

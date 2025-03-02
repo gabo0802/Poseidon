@@ -155,11 +155,12 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [highlightedCounties, setHighlightedCounties] = useState({});
+  const [results, setResults] = useState([]);
 
-  // Find counties by city (your original function)
+  // find counties by city
   const findCountiesByCity = (city) => {
     let countiesFound = [];
     for (let county in counties) {
@@ -170,24 +171,15 @@ function Map() {
     return countiesFound;
   };
 
-  // Handle key press (Enter)
+  // handle enter button press
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       const foundCounties = findCountiesByCity(searchTerm);
+      console.log("THIS SHOULD BE WHERE I CHANGE THE COLOR OF THE MAP");
 
-      if (foundCounties.length > 0) {
-        // Highlight the found counties
-        const newHighlightedCounties = {};
-        foundCounties.forEach((county) => {
-          newHighlightedCounties[county] = true; // Mark as highlighted
-        });
-        setHighlightedCounties(newHighlightedCounties); // Update state with highlighted counties
-        console.log(
-          `Found and highlighted counties: ${foundCounties.join(", ")}`
-        );
-      } else {
-        console.log("City not found in Florida.");
-      }
+      console.log(
+        foundCounties.length > 0 ? foundCounties : "City not found in Florida."
+      );
     }
   };
 
@@ -210,7 +202,13 @@ function Map() {
 
       {/* Display search results */}
       <div className="my-2 text-lg">
-        {searchTerm && <div>{`Searching for: ${searchTerm}`}</div>}
+        {results.length > 0 && (
+          <ul>
+            {results.map((county, index) => (
+              <li key={index}>{county}</li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="w-4/5 h-4/5">
@@ -227,21 +225,24 @@ function Map() {
               geographies.map((geo) => {
                 const countyName = geo.properties.county;
 
+                {
+                  /* if (geographies.properties.county === searchTerm) {
+                  console.log("Should print blue now");
+                } */
+                }
+
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill={
-                      highlightedCounties[countyName]
-                        ? "#FF5733" // Highlighted county color
-                        : "#D6D6DA" // Default color for other counties
-                    }
+                    fill="#E5E5F7"
                     stroke="#FFFFFF"
+                    tabIndex={-1}
                     onClick={() => console.log(`Clicked county: ${countyName}`)}
                     style={{
                       default: { outline: "none" },
-                      hover: { outline: "none", fill: "#ECEFF1" },
-                      pressed: { outline: "none", fill: "#BDBDBD" },
+                      hover: { outline: "none", fill: "blue" },
+                      pressed: { outline: "none", fill: "red" }, // Optional: change color on click
                     }}
                   />
                 );

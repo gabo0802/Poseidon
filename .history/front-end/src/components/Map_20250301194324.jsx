@@ -155,36 +155,32 @@ const counties = {
   Walton: ["DeFuniak Springs", "Santa Rosa Beach", "Freeport", "Miramar Beach"],
   Washington: ["Chipley", "Wausau", "Vernon"],
 };
+
 function Map() {
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightedCounties, setHighlightedCounties] = useState({});
 
-  // Find counties by city (your original function)
+  // Handle county click
+  const handleCountyClick = (geo) => {
+    const countyName = geo.properties.county;
+    console.log(`Clicked county: ${countyName}`);
+  };
+
+  // Find county from city name (hardcoded mapping)
   const findCountiesByCity = (city) => {
-    let countiesFound = [];
-    for (let county in counties) {
-      if (counties[county].includes(city)) {
-        countiesFound.push(county);
-      }
-    }
-    return countiesFound;
+    return counties[city] || null; // Returns the county name or null if not found
   };
 
   // Handle key press (Enter)
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      const foundCounties = findCountiesByCity(searchTerm);
-
-      if (foundCounties.length > 0) {
-        // Highlight the found counties
-        const newHighlightedCounties = {};
-        foundCounties.forEach((county) => {
-          newHighlightedCounties[county] = true; // Mark as highlighted
-        });
-        setHighlightedCounties(newHighlightedCounties); // Update state with highlighted counties
-        console.log(
-          `Found and highlighted counties: ${foundCounties.join(", ")}`
-        );
+      const countyName = findCountiesByCity(searchTerm);
+      if (countyName) {
+        // Update state to highlight the county
+        setHighlightedCounties((prevHighlighted) => ({
+          ...prevHighlighted,
+          [countyName]: true,
+        }));
       } else {
         console.log("City not found in Florida.");
       }
@@ -237,7 +233,7 @@ function Map() {
                         : "#D6D6DA" // Default color for other counties
                     }
                     stroke="#FFFFFF"
-                    onClick={() => console.log(`Clicked county: ${countyName}`)}
+                    onClick={() => handleCountyClick(geo)}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none", fill: "#ECEFF1" },
