@@ -139,9 +139,7 @@ function LandingPage() {
                       <h2 className="font-semibold text-2xl">Our Mission</h2>
                     </div>
                     <p className="m-10 text-xl">
-                      Leveraging the power of AI/ML, we can take precautionary
-                      measures to ensure tragedies like this are prevented in
-                      the future.
+                        With 91% accuracy, our AI-powered model helps predict flash floods before they strike. By leveraging real-time data and historical trends, we shift disaster response from reactive to preventative, protecting lives and infrastructure.
                     </p>
                   </div>
                 </motion.div>
