@@ -1,1 +1,1 @@
-web: gunicorn -k uvicorn.workers.UvicornWorker call_model:app --bind 0.0.0.0:${PORT:-8000}
+web: gunicorn -k uvicorn.workers.UvicornWorker call_model:app --bind 0.0.0.0:$PORT
