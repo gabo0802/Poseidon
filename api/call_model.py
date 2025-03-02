@@ -9,6 +9,26 @@ from fastapi.responses import JSONResponse
 app = FastAPI()
 model = joblib.load('best_model.pkl')
 
+def geocode_city(city: str) -> dict:
+    if "florida" not in city.lower():
+        city = f"{city}, Florida"
+    url = "https://nominatim.openstreetmap.org/search"
+    params = {
+        "q": city,
+        "format": "json",
+        "limit": 1
+    }
+
+    response = requests.get(url, params=params, headers={"User-Agent": "MyApp"})
+
+    if response.status_code != 200:
+        raise HTTPException(status_code=500, detail="Error fetching weather data")
+    results = response.json()
+    if not results:
+         raise HTTPException(status_code=404, detail="City not found")
+    return {"lat": float(results[0]["lat"]), "lon": float(results[0]["lon"])}
+
+
 def fetch_weather_data(latitude: float, longitude: float) -> dict:
     url = (f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={latitude}&longitude={longitude}"
@@ -62,14 +82,18 @@ def fetch_weather_data(latitude: float, longitude: float) -> dict:
 
     return aggregated_weather
 
-@app.get("/predict_flood/")
-def predict_flood(lat: float, lon: float):
+@app.get("/predict_flood_by_city/")
+def predict_flood(city: str):
+    coords = geocode_city(city)
+    lat = coords["lat"]
+    lon = coords["lon"]
     weather_data = fetch_weather_data(lat, lon)
     input_data = pd.DataFrame([weather_data])
     flood_risk = model.predict(input_data)
 
     # return the prediction as a JSON response
     return JSONResponse(content={
+        "city": city,
         "location": f"{lat}, {lon}",
         "flood_risk": round(float(flood_risk[0]), 2),
         "min_temp (°C)": round(float(weather_data["min_temp (°C)"]), 2),
