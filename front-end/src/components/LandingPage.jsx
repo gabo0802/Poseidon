@@ -119,9 +119,10 @@ function LandingPage() {
                       </h2>
                     </div>
                     <p className="m-10 text-xl">
-                      In 2024, record-breaking floods in Florida forced over 1
-                      million evacuations, submerged thousands of homes, and
-                      left 500,000 people homeless.
+                      With 91% accuracy, our AI-powered model helps predict flash floods before they strike, 
+                      enabling proactive measures to safeguard communities. 
+                      By leveraging real-time data and historical trends, 
+                      we shift disaster response from reactive to preventative, protecting lives and infrastructure.
                     </p>
                   </div>
                 </motion.div>
@@ -138,7 +139,7 @@ function LandingPage() {
                       <h2 className="font-semibold text-2xl">Our Mission</h2>
                     </div>
                     <p className="m-10 text-xl">
-                      With 91% accuracy, our AI-powered model helps predict flash floods before they strike. By leveraging real-time data and historical trends, we shift disaster response from reactive to preventative, protecting lives and infrastructure.
+                        With 91% accuracy, our AI-powered model helps predict flash floods before they strike. By leveraging real-time data and historical trends, we shift disaster response from reactive to preventative, protecting lives and infrastructure.
                     </p>
                   </div>
                 </motion.div>

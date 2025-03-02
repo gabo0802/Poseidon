@@ -7,10 +7,10 @@ export default function Header() {
           <h3 className="left-3 bottom-1 text-4xl absolute text-black font-bold font-['Poppins']">
             Poseidon
           </h3>
-          <h3 className="text-xl left-[900px] top-[2px] text-black font-bold absolute font-['Poppins'] hover:underline hover:cursor-pointer hover:scale-105 transition-transform">
+          <h3 className="text-xl right-[40em] top-[2px] text-black font-bold absolute font-['Poppins'] hover:underline hover:cursor-pointer hover:scale-105 transition-transform">
             <a href="#description">Description</a>
           </h3>
-          <h3 className="text-xl left-[1200px] top-[2px] text-black font-bold absolute font-['Poppins'] hover:underline hover:cursor-pointer hover:scale-105 transition-transform">
+          <h3 className="text-xl right-[20em] top-[2px] text-black font-bold absolute font-['Poppins'] hover:underline hover:cursor-pointer hover:scale-105 transition-transform">
             <a href="#map">Flood Map</a>
           </h3>
         </div>

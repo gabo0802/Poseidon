@@ -287,17 +287,22 @@ function Map() {
     >
       {/* Search Bar Section */}
       <motion.div
-        className="absolute bg-white rounded-lg top-4 left-1/2 transform -translate-x-1/2 w-1/2 z-50"
+        className="text-center py-4"
         style={{ opacity, y: yPosition }}
       >
-        <input
-          type="text"
-          className="w-full p-2 border border-gray-300 rounded-lg shadow-lg"
-          placeholder="Search for a city..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          onKeyPress={handleKeyPress}
-        />
+        <h1 className="text-3xl font-bold relative text-black mb-4">
+          See your Community
+        </h1>
+        <div className="bg-white rounded-lg w-[500px] mx-auto">
+          <input
+            type="text"
+            className="w-full p-2 border border-gray-300 rounded-lg shadow-lg"
+            placeholder="Search for a city..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyPress={handleKeyPress}
+          />
+        </div>
       </motion.div>
       {/* End of Search Bar Section */}
 
