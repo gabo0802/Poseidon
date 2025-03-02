@@ -115,7 +115,7 @@ function LandingPage() {
                   <div className="card-body bg-[#ff915e] p-0 rounded-2xl shadow-lg">
                     <div className="card-title bg-gradient-to-b from-[#ff5202] to-[#ff8f5c] p-5 w-full flex justify-center rounded-t-2xl">
                       <h2 className="font-semibold text-2xl">
-                      In 2024, record-breaking floods in Florida forced over 1 million evacuations, submerged thousands of homes, and left 500,000 people homeless.
+                        Florida 2024 Hurricane Season
                       </h2>
                     </div>
                     <p className="m-10 text-xl">
