@@ -60,43 +60,45 @@ _Flood prediction details for a particular city, demonstrating the application's
 
 ## Running Instructions
 
-1. Generate a virtual environment named `venv`:
+1. Clone the repository and cd into it.
+
+2. Generate a virtual environment named `venv`:
 
    ```sh
    python -m venv venv
    ```
 
-2. Activate the virtual environment:
+3. Activate the virtual environment:
 
    ```sh
    source venv/bin/activate
    ```
 
-3. Install the required packages:
+4. Install the required packages:
 
    ```sh
    pip install -r train_reqs.txt
    ```
 
-4. Run the backend from the root directory:
+5. Run the backend from the root directory:
 
    ```sh
    gunicorn -k uvicorn.workers.UvicornWorker call_model:app --bind 0.0.0.0:8000
    ```
 
-5. For the frontend, navigate to the `front-end` directory:
+6. For the frontend, navigate to the `front-end` directory:
 
    ```sh
    cd front-end
    ```
 
-6. Install the npm packages:
+7. Install the npm packages:
 
    ```sh
    npm install
    ```
 
-7. Run the development server:
+8. Run the development server:
    ```sh
    npm run dev
    ```
