@@ -1,7 +1,5 @@
 # Poseidon
 
-[Try out the final version of our project!](https://poseidon-project-final.vercel.app)
-
 ## Overview
 
 Poseidon is an innovative application designed to predict flash floods in Florida using advanced machine learning techniques. By analyzing historical flood data and real-time weather conditions, Poseidon provides accurate and timely flood predictions to help communities prepare and respond effectively. Developed with a robust backend in Python and a user-friendly frontend in React, Poseidon aims to mitigate the impact of natural disasters and safeguard lives and property.
